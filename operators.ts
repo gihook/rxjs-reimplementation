@@ -1,5 +1,12 @@
 import { Observable, Observer, Operator, Subscription } from "./rxjs";
 
+export function tap<T>(onEmit: (value: T) => void): Operator<T, T> {
+  return createOperator((value, observer) => {
+    onEmit(value);
+    observer.next(value);
+  });
+}
+
 export function switchMap<T, R>(
   mapToNewObservable: (value: T) => Observable<R>,
 ): Operator<T, R> {
