@@ -1,10 +1,13 @@
-import { fromArray, interval, of } from "./helpers";
+import { fromArray, interval, of, merge } from "./helpers";
 import { filter, map, scan, switchMap, take, tap } from "./operators";
 import { BehaviourSubject, Subject } from "./rxjs";
 
 const interval$ = interval(500);
 
-const test$ = interval$.pipe(
+const odds$ = interval$.pipe(filter(n => n % 2 != 0));
+const evens$ = interval$.pipe(filter(n => n % 2 == 0));
+
+const test$ = merge(odds$, evens$).pipe(
   tap((tapNumber) => console.log({ tapNumber })),
   map((number) => number + 10),
   filter((num) => num > 12),

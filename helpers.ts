@@ -1,4 +1,17 @@
-import { Observable } from "./rxjs";
+import { Observable, Subscription } from "./rxjs";
+
+export function merge<T>(o1: Observable<T>, o2: Observable<T>): Observable<T> {
+  return new Observable<T>((observer) => {
+    const subscriptions: Subscription[] = [];
+
+    subscriptions[0] = o1.subscribe(observer);
+    subscriptions[1] = o2.subscribe(observer);
+
+    return {
+      unsubscribe: () => subscriptions.forEach((s) => s.unsubscribe()),
+    };
+  });
+}
 
 export function fromArray<T>(items: T[]): Observable<T> {
   return new Observable<T>((observer) => {

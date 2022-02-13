@@ -28,11 +28,14 @@ export class Observable<T> {
   }
 
   pipe(): Observable<T>;
+
   pipe<R>(operator: Operator<T, R>): Observable<R>;
+
   pipe<A, R>(
     operator1: Operator<T, A>,
     operator2: Operator<A, R>,
   ): Observable<R>;
+
   pipe<A, B, R>(
     operator1: Operator<T, A>,
     operator2: Operator<A, B>,
